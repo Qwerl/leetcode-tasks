@@ -16,7 +16,7 @@ class SearchBiggerNumberFromBST {
                     else currentRoot = left
                 }
                 currentRoot = stack.pop()
-                if (currentRoot.`val` >= target) result.add(currentRoot.`val`)
+                if (currentRoot.`val` > target) result.add(currentRoot.`val`)
                 if (result.size == targetElementsCount) break
                 if (currentRoot.canHaveTargetRight(targetElementsCount) && result.size == targetElementsCount) break
                 val right = currentRoot.right
@@ -34,7 +34,7 @@ class SearchBiggerNumberFromBST {
         fun searchLOGN(bst: TreeNode?, target: Int, targetElements: Int): List<Int> {
             if (bst == null || targetElements <= 0) return emptyList()
             val result = mutableListOf<Int>()
-            if (bst.`val` >= target) {
+            if (bst.`val` > target) {
                 result.add(bst.`val`)
                 if (result.size == targetElements) return result
             }
@@ -42,7 +42,6 @@ class SearchBiggerNumberFromBST {
             bst.right?.let { result.addAll(searchLOGN(it, target, targetElements - result.size)) }
             return result
         }
-
     }
 }
 
@@ -64,15 +63,15 @@ fun main() {
             TreeNode(18)
         ),
     )
-    val result = SearchBiggerNumberFromBST.Solution().searchN(bst, 7, 3)
-    if (!result.containsAll(listOf(7, 10, 15))) println("FAIL: $result")
+    val result = SearchBiggerNumberFromBST.Solution().searchLOGN(bst, 7, 3)
+    if (!result.containsAll(listOf(10, 15, 18))) println("FAIL: $result")
     else println("success, result is $result")
 
-    val result2 = SearchBiggerNumberFromBST.Solution().searchN(bst, 7, 4)
+    val result2 = SearchBiggerNumberFromBST.Solution().searchLOGN(bst, 6, 4)
     if (!result2.containsAll(listOf(7, 10, 15, 18))) println("FAIL: $result2")
     else println("success, result is $result2")
 
-    val result3 = SearchBiggerNumberFromBST.Solution().searchN(bst, 5, 5)
-    if (!result3.containsAll(listOf(5, 6, 7, 10, 15))) println("FAIL: $result3")
+    val result3 = SearchBiggerNumberFromBST.Solution().searchLOGN(bst, 5, 5)
+    if (!result3.containsAll(listOf(6, 7, 10, 15, 18))) println("FAIL: $result3")
     else println("success, result is $result3")
 }
