@@ -22,7 +22,7 @@ class SearchBiggerNumberFromBST {
                 val right = currentRoot.right
                 currentRoot = right
             }
-            return result.toList()
+            return result
         }
 
         private fun TreeNode?.canHaveTargetRight(target: Int) =
