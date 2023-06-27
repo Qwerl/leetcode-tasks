@@ -4,7 +4,7 @@ class SearchBiggerNumberFromBST {
 
     class Solution {
 
-        fun searchN(bst: TreeNode?, target: Int, targetElements: Int): List<Int> {
+        fun searchN(bst: TreeNode?, target: Int, targetElementsCount: Int): List<Int> {
             val stack = LinkedList<TreeNode>()
             var currentRoot = bst
             val result = mutableListOf<Int>()
@@ -12,21 +12,24 @@ class SearchBiggerNumberFromBST {
                 while (currentRoot != null) {
                     stack.push(currentRoot)
                     val left = currentRoot.left
-                    if (currentRoot.`val` < target && left?.let { it.`val` < target } == true) {
-                        break
-                    }
+                    if (currentRoot.canHaveTargetLeft(targetElementsCount)) break
                     else currentRoot = left
                 }
                 currentRoot = stack.pop()
-                if (currentRoot.`val` >= target) {
-                    result.add(currentRoot.`val`)
-                }
-                if (result.size == targetElements) break
+                if (currentRoot.`val` >= target) result.add(currentRoot.`val`)
+                if (result.size == targetElementsCount) break
+                if (currentRoot.canHaveTargetRight(targetElementsCount) && result.size == targetElementsCount) break
                 val right = currentRoot.right
                 currentRoot = right
             }
             return result.toList()
         }
+
+        private fun TreeNode?.canHaveTargetRight(target: Int) =
+            this?.let { it.`val` > target } == true && right?.let { it.`val` > target } == true
+
+        private fun TreeNode.canHaveTargetLeft(target: Int) =
+            this.`val` < target && left?.let { it.`val` < target } == true
 
         fun searchLOGN(bst: TreeNode?, target: Int, targetElements: Int): List<Int> {
             if (bst == null || targetElements <= 0) return emptyList()
